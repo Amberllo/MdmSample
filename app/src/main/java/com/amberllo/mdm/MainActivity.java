@@ -1,17 +1,29 @@
 package com.amberllo.mdm;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.UserHandle;
+import android.os.UserManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.lang.reflect.Method;
+
+import static android.app.admin.DevicePolicyManager.ACTION_PROVISION_MANAGED_PROFILE;
+import static android.app.admin.DevicePolicyManager.EXTRA_PROVISIONING_DEVICE_ADMIN_PACKAGE_NAME;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void init(){
         componentName = new ComponentName(this, MyAdmin.class);
         devicePolicyManager = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
@@ -110,6 +124,14 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "----这是一键锁屏激活界面-----");
             startActivityForResult(intent, 0);
         }
+//        boolean isOwner = false;
+//        UserManager um = (UserManager) getSystemService(Context.USER_SERVICE);
+//        if (um != null) {
+//            UserHandle userHandle = android.os.Process.myUserHandle();
+//            isOwner = um.getSerialNumberForUser(userHandle) == 0;
+//            System.out.println(isOwner);
+//        }
+
     }
 
 }
